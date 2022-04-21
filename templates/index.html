@@ -10,18 +10,21 @@
     <link rel="stylesheet" href="static/src/style.css" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet" />
-    <title>Tiyanquiztli</title>
+    <title>Tiyanquiztli, {{error}}</title>
 </head>
 
 <body>
     <header class="header" id="inicio">
         <img src="static/img/hamburger.svg" alt="" class="hamburger" />
         <nav class="menu-navegacion">
+            <a href="/login">Log in</a>
             <a href="#inicio">Inicio</a>
             <a href="#servicio">Servicio</a>
             <a href="#catalogo">Catalogo</a>
             <a href="#expertos">Expertos</a>
             <a href="#contacto">Contacto</a>
+            <a href="/logout">Log out</a>
+
         </nav>
         <div class="contenedor head">
             <h1 class="titulo">
@@ -110,7 +113,7 @@
     <footer id="contacto">
         <div class="contenedor footer-content">
             <div class="contact-us">
-                <h2 class="brand">Integrantes</h2>
+                <h2 class="brand">{{ error }}</h2>
                 <p>
                     Arturo Márquez / Humberto Carrillo / Andrés Reyes / Rubén Villalpando / David Medina
                 </p>

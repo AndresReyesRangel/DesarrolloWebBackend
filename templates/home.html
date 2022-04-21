@@ -1,0 +1,8 @@
+{% for i in data %}
+<i>{{i.nombre}}</i> {% for c in i.Semestre01 %}
+<p>Matematicas: {{c.Matematicas}}</p>
+<p>Español: {{c.Matematicas}}</p>
+{% endfor %} {% for c in i.Semestre02 %}
+<p>Fisica: {{c.Fisica}}</p>
+<p>Programacion: {{c.Progra}}</p>
+{% endfor %} {% endfor %}

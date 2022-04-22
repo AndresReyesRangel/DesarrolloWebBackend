@@ -1,5 +1,6 @@
 from flask import Flask, redirect, render_template, request, session, url_for
 import datetime
+import pymongo
 
 
 # FlASK
@@ -7,6 +8,15 @@ import datetime
 app = Flask(__name__)
 app.permanent_session_lifetime = datetime.timedelta(days=1)
 app.secret_key = "super secret key"
+#############################################################
+
+# MONGODB
+#############################################################
+mongodb_key = "mongodb+srv://desarrollowebuser:desarrollowebpassword@cluster0.dfh7g.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+client = pymongo.MongoClient(
+    mongodb_key, tls=True, tlsAllowInvalidCertificates=True)
+db = client.Escuela
+cuentas = db.alumno
 #############################################################
 
 @app.route('/')
@@ -53,3 +63,27 @@ def prueba():
             }]
     })
     return render_template("home.html", data=nombres)
+
+@app.route('/usuarios')
+def usuarios():
+    cursor = cuentas.find({})
+    users = []
+    for doc in cursor:
+        users.append(doc)
+    return render_template("/usuarios.html", data = users)
+
+@app.route('/insert')
+def insertUsers():
+    user = {
+        "matricula":"1",
+        "nombre":"Andres",
+        "correo":"A01746592@tec.mx",
+        "contraseña":"1234567"
+    }
+
+    try:
+        cuentas.insert_one(user)
+        return redirect(url_for("usuarios"))
+    except Exception as e:
+        return "<p>El servicio no está disponible: %s %s<p>" % type(e), e
+    

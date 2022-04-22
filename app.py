@@ -72,13 +72,13 @@ def usuarios():
         users.append(doc)
     return render_template("/usuarios.html", data = users)
 
-@app.route('/insert')
+@app.route('/insert', methods=["POST"])
 def insertUsers():
     user = {
-        "matricula":"1",
-        "nombre":"Andres",
+        "matricula":"A01746592",
+        "nombre":"Andres Reyes",
         "correo":"A01746592@tec.mx",
-        "contraseña":"1234567"
+        "contrasena":"1234567"
     }
 
     try:
@@ -86,4 +86,48 @@ def insertUsers():
         return redirect(url_for("usuarios"))
     except Exception as e:
         return "<p>El servicio no está disponible: %s %s<p>" % type(e), e
+    
+@app.route('/find_one/<matricula>')
+def find_one(matricula):
+    try:
+        user = cuentas.find_one({"matricula":(matricula)})
+        if user == None:
+            return "<p>La matricula %s nó existe</p>" % (matricula)
+        else:
+            return "<p>Encontramos: %s </p>" % (user)
+    except Exception as e:
+        return "%s" % e
+
+@app.route('/delete/<matricula>')
+def delete_one(matricula):
+    try:
+        user = cuentas.delete_one({"matricula":(matricula)})
+        if user.deleted_count == None:
+            return "<p>La matricula %s nó existe</p>" % (matricula)
+        else:
+            return redirect(url_for("usuarios"))
+
+    except Exception as e:
+        return "%s" % e
+
+
+@app.route('/update', methods=["POST"])
+def update():
+    try:
+        filter = {"matricula": request.form["matricula"]}
+        user = {"$set": {
+            "nombre": request.form["nombre"],
+            "constrasena": request.form["contrasena"]
+            }}
+        cuentas.update_one(filter, user)
+        return redirect(url_for("usuarios"))
+
+    except Exception as e:
+        return "error %s" % (e)
+
+@app.route('/create')
+def create():
+    
+    return render_template("/CreateForm.html")
+
     

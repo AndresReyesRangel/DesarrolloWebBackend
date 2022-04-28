@@ -7,12 +7,11 @@
 </head>
 
 <a class="nav-link" href="/create">Create user</a>
-
+<a class="nav-link" href="/login">Iniciar sesion</a>
 
 <body>
     <table class="table">
         <tr>
-            <th scope="col">Matricula</th>
             <th scope="col">Nombre</th>
             <th scope="col">Correo</th>
             <th scope="col">Contraseña</th>
@@ -22,13 +21,12 @@
         <form method="POST" action="/update">
             <tr>
 
-                <td><input type="text" name="matricula" value="{{i.matricula}}"></td>
                 <td><input type="text" name="nombre" value="{{i.nombre}}"></td>
                 <td><input type="text" name="correo" value="{{i.correo}}"></td>
                 <td><input type="password" name="contrasena" value="{{i.contrasena}}"></td>
                 <td><button type="submit" class="btn btn-primary">Update</button></td>
         </form>
-        <td><a href="/delete/{{i.matricula}}"><button class="btn btn-primary">Delete</button></a></td>
+        <td><a href="/delete/{{i.nombre}}"><button class="btn btn-primary">Delete</button></a></td>
         </tr>
 
         {% endfor %}

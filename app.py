@@ -1,6 +1,8 @@
 from flask import Flask, redirect, url_for, request, render_template, session
 import datetime
 import pymongo
+from twilio.rest import Client
+from decouple import config
 
 # FlASK
 #############################################################
@@ -17,6 +19,14 @@ client = pymongo.MongoClient(
 db = client.Escuela
 cuentas = db.Alumno
 #############################################################
+
+# Twilio
+#############################################################
+account_sid = ('AC327d626fb1cec695ce3b0b425e0d5090')
+auth_token = ('58479c8bd96fc1d5b95f746e9237db6c')
+TwilioClient = Client(account_sid, auth_token)
+#############################################################
+
 
 @app.route('/')
 def home():
@@ -94,6 +104,13 @@ def insertUsers():
     }
     try:
         cuentas.insert_one(user)
+        message = TwilioClient.messages.create( 
+            from_='whatsapp:+14155238886',  
+            body='El usuario %s se agregó a tu pagina web' % (
+                request.form["nombre"]),     
+            to='whatsapp:+5215549942576' 
+        ) 
+        print(message.sid)
         return redirect(url_for("usuarios"))
     except Exception as e:
         return "<p>El servicio no esta disponible =>: %s %s" % type(e), e
@@ -156,3 +173,5 @@ def prueba():
             }]
     })
     return render_template("home.html", data=nombres)
+
+#comment para actualizar
